@@ -59,6 +59,10 @@ def main():
                 print("Continente:", resultado["continente"])
             else: 
                 print("País no encontrado.")
+        if opcion == 2:
+            print("1. filtar por continente")
+            print("2. filtrar por Rango de población")
+            print("3. filtrar por Rango de superficie")
         elif opcion == 5:
             print("Muchas gracias, hasta luego!")
             break
