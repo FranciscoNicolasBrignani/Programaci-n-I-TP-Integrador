@@ -43,24 +43,50 @@ def main():
     # Bucle para mostrar el menú y procesar las opciones
     while True:
         menu()
-        opcion = int(input("Seleccione una opción (1-5): "))
+        opcion = input("Seleccione una opción (1-5): ")
 
         # Opciones del menú
-        if opcion == 1:
+        if opcion == "1":
             # Pedimos al usuario el país a buscar
             pais_usuario = input("Ingrese el nombre del país a buscar: ")
             resultado = buscar_pais(pais_usuario, lista_de_paises)
 
             if resultado: # Si lo encontramos, mostramos sus datos
+                print("----------------------------------")
+                print("RESULTADO DE LA BÚSQUEDA:")
                 print("País encontrado:", resultado["nombre"])
                 print("Población:", resultado["poblacion"])
                 print("Superficie:", resultado["superficie"])
                 print("Continente:", resultado["continente"])
             else: 
                 print("País no encontrado.")
-        elif opcion == 5:
+        # Otras opciones del menú (a implementar)
+        elif opcion == "2":
+            print("Funcionalidad de filtrar países no implementada aún.")
+        elif opcion == "3":
+            # Pedimos al usuario como lo quiere ordenar
+            clave = input("Ingrese para ordenar: 1. Nombre 2. Población 3. Superficie ")
+
+            # Validamos la clave
+            while clave not in ["1", "2", "3"]:
+                clave = input("Ordenamiento inválido. Ingrese 1. Nombre 2. Población 3. Superficie ")
+
+            # Ascendente o descendente en caso de población o superficie
+            if clave == "2" or clave == "3":
+                orden = input("Ingrese 1. Orden ascendente 2. Orden descendente: ")
+
+                # Validamos el orden
+                while orden not in ["1", "2"]:
+                    orden = input("Orden inválido. Ingrese 1. Orden ascendente 2. Orden descendente: ")
+        elif opcion == "4":
+            print("Funcionalidad de mostrar estadísticas no implementada aún.")
+        elif opcion == "5":
+            print("----------------------------------")
             print("Muchas gracias, hasta luego!")
             break
+        else:
+            print("----------------------------------")
+            print("Opción no válida, intente de nuevo.")
 
 main() 
 
