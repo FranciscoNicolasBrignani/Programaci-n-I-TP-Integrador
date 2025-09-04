@@ -30,6 +30,7 @@ def menu():
     print("Menú de opciones:")
     print("1. Buscar país")
     print("2. Filtrar países")
+    #Crear las subopciones de filtrar
     print("3. Ordenar países")
     print("4. Mostrar estadísticas")
     print("5. Salir")
