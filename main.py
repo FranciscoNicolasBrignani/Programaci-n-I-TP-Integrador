@@ -41,8 +41,9 @@ def main():
     ruta_archivo = 'countries.csv'
     lista_de_paises = cargar_paises(ruta_archivo)
 
+    opcion = 0
     # Bucle para mostrar el menú y procesar las opciones
-    while True:
+    while opcion == 0:
         menu()
         opcion = int(input("Seleccione una opción (1-5): "))
 
@@ -63,6 +64,30 @@ def main():
             print("1. filtar por continente")
             print("2. filtrar por Rango de población")
             print("3. filtrar por Rango de superficie")
+            opcion = int(input("Seleccione una opción (1-3): "))
+
+            if opcion == 1:
+                continente_usuario = input("Ingrese el continente a filtrar: ")
+                print("Países en el continente", continente_usuario, ":")
+                if continente_usuario:
+                    for pais in lista_de_paises:
+                        if pais["continente"].lower() == continente_usuario.lower():
+                            print("-", pais["nombre"])
+            elif opcion == 2:
+                poblacion_min = int(input("Ingrese la población mínima: "))
+                poblacion_max = int(input("Ingrese la población máxima: "))
+                print("Países con población entre", poblacion_min, "y", poblacion_max, ":")
+                for pais in lista_de_paises:
+                    if poblacion_min <= int(pais["poblacion"]) <= poblacion_max:
+                        print("-", pais["nombre"])
+            elif opcion == 3:
+                superficie_min = int(input("Ingrese la superficie mínima: "))
+                superficie_max = int(input("Ingrese la superficie máxima: "))
+                print("Países con superficie entre", superficie_min, "y", superficie_max, ":")
+                for pais in lista_de_paises:
+                    if superficie_min <= int(pais["superficie"]) <= superficie_max:
+                        print("-", pais["nombre"])
+            
         elif opcion == 5:
             print("Muchas gracias, hasta luego!")
             break
