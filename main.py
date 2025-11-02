@@ -54,6 +54,24 @@ def agregar_pais(lista_de_paises):
     guardar_paises('countries.csv', lista_de_paises)
     print(f"País {nombre} agregado exitosamente.")
 
+#Funcion para actualizar datos de un país
+def actualizar_pais(lista_de_paises):
+    nombre = input("Ingrese el nombre del país a actualizar: ")
+    pais = buscar_pais(nombre, lista_de_paises)
+
+    if not pais:
+        print("El país no existe en la lista.")
+        return
+
+    nueva_poblacion = input("Ingrese la nueva población del país: ")
+    nueva_superficie = input("Ingrese la nueva superficie del país: ")
+
+    pais["poblacion"] = nueva_poblacion
+    pais["superficie"] = nueva_superficie
+
+    guardar_paises('countries.csv', lista_de_paises)
+    print(f"Datos del país {nombre} actualizados exitosamente.")
+
 # Función para mostrar el menú de opciones
 def menu():
     print("----------------------------------")
@@ -65,11 +83,6 @@ def menu():
     print("5. Ordenar países")
     print("6. Mostrar estadísticas")
     print("7. Salir")
-    print("1. Buscar país")
-    print("2. Filtrar países")
-    print("3. Ordenar países")
-    print("4. Mostrar estadísticas")
-    print("5. Salir")
 
 # Función principal
 def main():
@@ -87,16 +100,10 @@ def main():
         if opcion == 1:
             agregar_pais(lista_de_paises)
         
-        
+        if opcion == 2:
+            actualizar_pais(lista_de_paises)
         # Opciones del menú
         if opcion == 3:
-    # Bucle para mostrar el menú y procesar las opciones
-    while True:
-        menu()
-        opcion = int(input("Seleccione una opción (1-5): "))
-
-        # Opciones del menú
-        if opcion == 1:
             # Pedimos al usuario el país a buscar
             pais_usuario = input("Ingrese el nombre del país a buscar: ")
             resultado = buscar_pais(pais_usuario, lista_de_paises)
@@ -138,7 +145,6 @@ def main():
             #AGREGAR LAS DEMAS OPCIONES 5 Y 6
             
         elif opcion == 7:
-        elif opcion == 5:
             print("Muchas gracias, hasta luego!")
             break
 
