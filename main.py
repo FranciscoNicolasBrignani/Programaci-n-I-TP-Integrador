@@ -16,7 +16,6 @@ def cargar_paises(ruta):
             paises.append(pais)
     return paises
 
-
 # Función para buscar un país por nombre
 def buscar_pais(pais_usuario, lista_de_paises):
     for pais in lista_de_paises:
@@ -24,6 +23,7 @@ def buscar_pais(pais_usuario, lista_de_paises):
             return pais
     return False
 
+#Funcion para guardar los datos actualizados en el archivo CSV
 def guardar_paises(ruta, lista_de_paises):
     with open(ruta, 'w', newline='', encoding='utf-8') as archivo:
         campos = ['nombre', 'poblacion', 'superficie', 'continente']
@@ -36,12 +36,24 @@ def guardar_paises(ruta, lista_de_paises):
 def agregar_pais(lista_de_paises):
 
     nombre = input("Ingrese el nombre del país: ")
+    if nombre == "":
+        print("Error: El nombre del país no puede estar vacío.")
+        return main()
     if buscar_pais(nombre, lista_de_paises):
         print("El país ya existe en la lista.")
         return main()
     poblacion = input("Ingrese la población del país: ")
+    if str(poblacion) == "" or poblacion == "0":
+        print("Error: La población del país no puede estar vacía ni ser 0.")
+        return main()
     superficie = input("Ingrese la superficie del país: ")
+    if str(superficie) == "" or superficie == "0":
+        print("Error: La superficie del país no puede estar vacía ni ser 0.")
+        return main()
     continente = input("Ingrese el continente del país: ")
+    if continente == "":
+        print("Error: El continente del país no puede estar vacío.")
+        return main()
 
     nuevo_pais = {
         "nombre": nombre,
@@ -53,6 +65,7 @@ def agregar_pais(lista_de_paises):
     lista_de_paises.append(nuevo_pais)
     guardar_paises('countries.csv', lista_de_paises)
     print(f"País {nombre} agregado exitosamente.")
+    return main()
 
 #Funcion para actualizar datos de un país
 def actualizar_pais(lista_de_paises):
@@ -71,6 +84,7 @@ def actualizar_pais(lista_de_paises):
 
     guardar_paises('countries.csv', lista_de_paises)
     print(f"Datos del país {nombre} actualizados exitosamente.")
+    
 
 # Función para mostrar el menú de opciones
 def menu():
@@ -96,19 +110,16 @@ def main():
         menu()
         opcion = int(input("Seleccione una opción (1-7): "))
 
-        #AGREGAR LAS OPCIONES 1 Y 2
         if opcion == 1:
             agregar_pais(lista_de_paises)
         
         if opcion == 2:
             actualizar_pais(lista_de_paises)
-        # Opciones del menú
         if opcion == 3:
-            # Pedimos al usuario el país a buscar
             pais_usuario = input("Ingrese el nombre del país a buscar: ")
             resultado = buscar_pais(pais_usuario, lista_de_paises)
 
-            if resultado: # Si lo encontramos, mostramos sus datos
+            if resultado: 
                 print("País encontrado:", resultado["nombre"])
                 print("Población:", resultado["poblacion"])
                 print("Superficie:", resultado["superficie"])
@@ -143,7 +154,60 @@ def main():
                     if superficie_min <= int(pais["superficie"]) <= superficie_max:
                         print("-", pais["nombre"])
             #AGREGAR LAS DEMAS OPCIONES 5 Y 6
+        if opcion == 5:
+            print("1. Ordenar por nombre")
+            print("2. Ordenar por población")
+            print("3. Ordenar por superficie")
+            opcion = int(input("Seleccione una opción (1-3): "))
+
+            if opcion == 1:
+                paises_ordenados = sorted(lista_de_paises, key=lambda x: x["nombre"])
+                for pais in paises_ordenados:
+                    print("-", pais["nombre"])
+            elif opcion == 2:
+                paises_ordenados = sorted(lista_de_paises, key=lambda x: x["poblacion"])
+                for pais in paises_ordenados:
+                    print("-", pais["poblacion"], pais["nombre"])
+            elif opcion == 3:
+                paises_ordenados = sorted(lista_de_paises, key=lambda x: x["superficie"])
+                for pais in paises_ordenados:
+                    print("-", pais["superficie"], pais["nombre"])
+            print("Países ordenados:")
             
+            
+        if opcion == 6:
+            print("Elija las estadísticas que desea ver:")
+            print("1. País con mayor y menor población")
+            print("2. Promedio de población")
+            print("3. Promedio de superficie")
+            print("4. Cantidad de países por continente ")
+            opcion = int(input("Seleccione una opción (1-4): "))
+
+            if opcion == 1:
+                pais_mayor_poblacion = max(lista_de_paises, key=lambda x: int(x["poblacion"]))
+                pais_menor_poblacion = min(lista_de_paises, key=lambda x: int(x["poblacion"]))
+                print("País con mayor población:", pais_mayor_poblacion["nombre"], "con", pais_mayor_poblacion["poblacion"])
+                print("País con menor población:", pais_menor_poblacion["nombre"], "con", pais_menor_poblacion["poblacion"])
+            elif opcion == 2:
+                total_poblacion = sum(int(pais["poblacion"]) for pais in lista_de_paises)
+                promedio_poblacion = total_poblacion / len(lista_de_paises)
+                print(f"Promedio de población: {promedio_poblacion:.2f}")
+            elif opcion == 3:
+                total_superficie = sum(int(pais["superficie"]) for pais in lista_de_paises)
+                promedio_superficie = total_superficie / len(lista_de_paises)
+                print(f"Promedio de superficie: {promedio_superficie:.2f}")
+            elif opcion == 4:
+                continentes = {}
+                for pais in lista_de_paises:
+                    continente = pais["continente"]
+                    if continente in continentes:
+                        continentes[continente] += 1
+                    else:
+                        continentes[continente] = 1
+                print("Cantidad de países por continente:")
+                for continente, cantidad in continentes.items():
+                    print(continente + ":", cantidad)
+
         elif opcion == 7:
             print("Muchas gracias, hasta luego!")
             break
