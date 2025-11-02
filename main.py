@@ -54,6 +54,24 @@ def agregar_pais(lista_de_paises):
     guardar_paises('countries.csv', lista_de_paises)
     print(f"País {nombre} agregado exitosamente.")
 
+#Funcion para actualizar datos de un país
+def actualizar_pais(lista_de_paises):
+    nombre = input("Ingrese el nombre del país a actualizar: ")
+    pais = buscar_pais(nombre, lista_de_paises)
+
+    if not pais:
+        print("El país no existe en la lista.")
+        return
+
+    nueva_poblacion = input("Ingrese la nueva población del país: ")
+    nueva_superficie = input("Ingrese la nueva superficie del país: ")
+
+    pais["poblacion"] = nueva_poblacion
+    pais["superficie"] = nueva_superficie
+
+    guardar_paises('countries.csv', lista_de_paises)
+    print(f"Datos del país {nombre} actualizados exitosamente.")
+
 # Función para mostrar el menú de opciones
 def menu():
     print("----------------------------------")
@@ -82,7 +100,8 @@ def main():
         if opcion == 1:
             agregar_pais(lista_de_paises)
         
-        
+        if opcion == 2:
+            actualizar_pais(lista_de_paises)
         # Opciones del menú
         if opcion == 3:
             # Pedimos al usuario el país a buscar
