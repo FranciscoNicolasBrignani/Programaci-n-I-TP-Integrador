@@ -83,6 +83,11 @@ def menu():
     print("5. Ordenar países")
     print("6. Mostrar estadísticas")
     print("7. Salir")
+    print("1. Buscar país")
+    print("2. Filtrar países")
+    print("3. Ordenar países")
+    print("4. Mostrar estadísticas")
+    print("5. Salir")
 
 # Función principal
 def main():
@@ -104,6 +109,13 @@ def main():
             actualizar_pais(lista_de_paises)
         # Opciones del menú
         if opcion == 3:
+    # Bucle para mostrar el menú y procesar las opciones
+    while True:
+        menu()
+        opcion = int(input("Seleccione una opción (1-5): "))
+
+        # Opciones del menú
+        if opcion == 1:
             # Pedimos al usuario el país a buscar
             pais_usuario = input("Ingrese el nombre del país a buscar: ")
             resultado = buscar_pais(pais_usuario, lista_de_paises)
@@ -145,6 +157,7 @@ def main():
             #AGREGAR LAS DEMAS OPCIONES 5 Y 6
             
         elif opcion == 7:
+        elif opcion == 5:
             print("Muchas gracias, hasta luego!")
             break
 
