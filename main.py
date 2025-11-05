@@ -1,4 +1,5 @@
 import csv
+import unicodedata
 
 # Función que carga los datos de países desde un archivo CSV
 def cargar_paises(ruta):
@@ -9,8 +10,8 @@ def cargar_paises(ruta):
         for fila in lector:
             pais = {
                 "nombre": fila['nombre'],
-                "poblacion": fila['poblacion'],
-                "superficie": fila['superficie'],
+                "poblacion": int(fila['poblacion']),
+                "superficie": int (fila['superficie']),
                 "continente": fila['continente']
             }
             paises.append(pais)
@@ -18,8 +19,9 @@ def cargar_paises(ruta):
 
 # Función para buscar un país por nombre
 def buscar_pais(pais_usuario, lista_de_paises):
+    pais_usuario = igualar_texto(pais_usuario)
     for pais in lista_de_paises:
-        if pais_usuario.lower() in pais["nombre"].lower():
+        if pais_usuario in igualar_texto(pais["nombre"]):
             return pais
     return False
 
@@ -51,6 +53,7 @@ def agregar_pais(lista_de_paises):
         print("Error: La superficie del país no puede estar vacía ni ser 0.")
         return main()
     continente = input("Ingrese el continente del país: ")
+    continente = igualar_texto(continente)
     if continente == "":
         print("Error: El continente del país no puede estar vacío.")
         return main()
@@ -84,6 +87,14 @@ def actualizar_pais(lista_de_paises):
 
     guardar_paises('countries.csv', lista_de_paises)
     print(f"Datos del país {nombre} actualizados exitosamente.")
+
+#Funcion para igualar texto
+def igualar_texto(texto):
+    texto_normal = unicodedata.normalize("NFD", texto)
+    texto_sin_acentos = "".join(
+        c for c in texto_normal if unicodedata.category(c) != "Mn"
+    )
+    return texto_sin_acentos.lower()
     
 
 # Función para mostrar el menú de opciones
@@ -134,10 +145,11 @@ def main():
 
             if opcion == 1:
                 continente_usuario = input("Ingrese el continente a filtrar: ")
+                continente_usuario = igualar_texto(continente_usuario)
                 print("Países en el continente", continente_usuario, ":")
                 if continente_usuario:
                     for pais in lista_de_paises:
-                        if pais["continente"].lower() == continente_usuario.lower():
+                        if igualar_texto(pais["continente"]) == continente_usuario:
                             print("-", pais["nombre"])
             elif opcion == 2:
                 poblacion_min = int(input("Ingrese la población mínima: "))
@@ -165,11 +177,11 @@ def main():
                 for pais in paises_ordenados:
                     print("-", pais["nombre"])
             elif opcion == 2:
-                paises_ordenados = sorted(lista_de_paises, key=lambda x: x["poblacion"])
+                paises_ordenados = sorted(lista_de_paises, key=lambda x: int(x["poblacion"]))
                 for pais in paises_ordenados:
                     print("-", pais["poblacion"], pais["nombre"])
             elif opcion == 3:
-                paises_ordenados = sorted(lista_de_paises, key=lambda x: x["superficie"])
+                paises_ordenados = sorted(lista_de_paises, key=lambda x: int(x["superficie"]))
                 for pais in paises_ordenados:
                     print("-", pais["superficie"], pais["nombre"])
             print("Países ordenados:")
@@ -188,6 +200,7 @@ def main():
                 pais_menor_poblacion = min(lista_de_paises, key=lambda x: int(x["poblacion"]))
                 print("País con mayor población:", pais_mayor_poblacion["nombre"], "con", pais_mayor_poblacion["poblacion"])
                 print("País con menor población:", pais_menor_poblacion["nombre"], "con", pais_menor_poblacion["poblacion"])
+                return main()
             elif opcion == 2:
                 total_poblacion = sum(int(pais["poblacion"]) for pais in lista_de_paises)
                 promedio_poblacion = total_poblacion / len(lista_de_paises)
