@@ -38,6 +38,7 @@ def guardar_paises(ruta, lista_de_paises):
 def agregar_pais(lista_de_paises):
 
     nombre = input("Ingrese el nombre del país: ")
+    nombre = igualar_texto(nombre)
     if nombre == "":
         print("Error: El nombre del país no puede estar vacío.")
         return main()
